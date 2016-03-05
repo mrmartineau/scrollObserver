@@ -1,5 +1,5 @@
 # Sticker
-## Add class to element when a specific scroll value has been reached
+### Add class to element when a specific scroll value has been reached
 
 This is useful if you want to have a sticky nav
 
@@ -37,3 +37,5 @@ new Sticker(document.querySelector('.foo'), {
 	classNameActive: 'fixToTop',
 });
 ```
+
+By [Z&er :zap:](https://github.com/mrmartineau/)
