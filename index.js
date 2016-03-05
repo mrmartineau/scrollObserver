@@ -23,6 +23,10 @@ function Sticker(element, options) {
 
 	this.options = Object.assign({}, this.defaultOptions, opts);
 
+	if (this.options.breakpoint === 'this') {
+			this.breakpoint = getOffsetSum(this.element).top;
+	}
+
 	this.addEvents();
 }
 
@@ -37,21 +41,22 @@ Sticker.prototype.defaultOptions = {
 
 /** Add events */
 Sticker.prototype.addEvents = function () {
-	window.addEventListener("scroll", this.onScroll.bind(this))
+	window.addEventListener("scroll", this.onScroll.bind(this));
 };
 
 
 /** onScroll events */
-Sticker.prototype.onScroll = function () {
-	const scrollYPos = window.scrollY;
+Sticker.prototype.onScroll = function (e) {
+	const scrollYPos = getScrollTop();
+	let breakpoint;
 
-	let breakpoint = this.options.breakpoint;
-
-	if (this.options.breakpoint === 'this') {
-		breakpoint = getOffsetSum(this.el).top;
+	if (this.breakpoint) {
+		breakpoint = this.breakpoint;
+	} else {
+		breakpoint = this.options.breakpoint;
 	}
 
-	if (scrollYPos >= this.options.breakpoint) {
+	if (scrollYPos >= breakpoint) {
 		this.stick();
 	} else {
 		this.unstick();
@@ -61,16 +66,20 @@ Sticker.prototype.onScroll = function () {
 
 /** Stick */
 Sticker.prototype.stick = function () {
-	this.el.classList.add(this.options.classNameActive);
-	this.el.classList.remove(this.options.classNameInactive);
+	this.element.classList.add(this.options.classNameActive);
+	this.element.classList.remove(this.options.classNameInactive);
 };
 
 
 /** Unstick */
 Sticker.prototype.unstick = function () {
-	this.el.classList.remove(this.options.classNameActive);
-	this.el.classList.add(this.options.classNameInactive);
+	this.element.classList.remove(this.options.classNameActive);
+	this.element.classList.add(this.options.classNameInactive);
 };
+
+function getScrollTop () {
+	return window.pageYOffset || document.body.scrollTop;
+}
 
 function getOffsetSum(elem) {
 	let top = 0;
@@ -87,5 +96,3 @@ function getOffsetSum(elem) {
 		left: left,
 	};
 }
-
-module.exports = Sticker;
