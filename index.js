@@ -1,5 +1,5 @@
 /**
- * Sticker
+ * ScrollObserver
  * Description
  *
  * @module
@@ -11,20 +11,12 @@
  * @param {Element} element
  * @param {Object} options
  */
-function Sticker(element, options) {
-	let opts;
+function ScrollObserver(element, options) {
 	this.element = element;
+	this.options = Object.assign({}, this.defaultOptions, options);
 
-	if (arguments.length > 1) {
-		opts = options || {};
-	} else {
-		opts = JSON.parse(this.element.getAttribute('data-sticker-options')) || {};
-	}
-
-	this.options = Object.assign({}, this.defaultOptions, opts);
-
-	if (this.options.breakpoint === 'this') {
-			this.breakpoint = getOffsetSum(this.element).top;
+	if (this.options.thresholdIn === 'this') {
+		this.breakpoint = getOffsetSum(this.element).top;
 	}
 
 	this.addEvents();
@@ -32,21 +24,22 @@ function Sticker(element, options) {
 
 
 /** Default options */
-Sticker.prototype.defaultOptions = {
-	breakpoint: 1,
-	classNameActive: 'sticker-active',
-	classNameInactive: 'sticker-inactive',
+ScrollObserver.prototype.defaultOptions = {
+	thresholdIn: 1,
+	thresholdOut: 100,
+	classNameActive: 'scrollObserver-active',
+	classNameInactive: 'scrollObserver-inactive',
 };
 
 
 /** Add events */
-Sticker.prototype.addEvents = function () {
+ScrollObserver.prototype.addEvents = function () {
 	window.addEventListener("scroll", this.onScroll.bind(this));
 };
 
 
 /** onScroll events */
-Sticker.prototype.onScroll = function (e) {
+ScrollObserver.prototype.onScroll = function (e) {
 	const scrollYPos = getScrollTop();
 	let breakpoint;
 
@@ -65,14 +58,14 @@ Sticker.prototype.onScroll = function (e) {
 
 
 /** Stick */
-Sticker.prototype.stick = function () {
+ScrollObserver.prototype.stick = function () {
 	this.element.classList.add(this.options.classNameActive);
 	this.element.classList.remove(this.options.classNameInactive);
 };
 
 
 /** Unstick */
-Sticker.prototype.unstick = function () {
+ScrollObserver.prototype.unstick = function () {
 	this.element.classList.remove(this.options.classNameActive);
 	this.element.classList.add(this.options.classNameInactive);
 };
