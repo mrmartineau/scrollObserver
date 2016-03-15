@@ -66,4 +66,4 @@ new ScrollObserver(
 );
 ```
 
-By [Z&er :zap:](https://github.com/mrmartineau/)
+Made by [Z&er :zap:](https://github.com/mrmartineau/)
