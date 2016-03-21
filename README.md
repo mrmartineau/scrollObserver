@@ -68,4 +68,4 @@ new ScrollObserver(
 
 Testing: http://jsbin.com/tokuco/26/edit?js,console,output
 
-By [Z&er :zap:](https://github.com/mrmartineau/)
+Made by [Z&er :zap:](https://github.com/mrmartineau/)
