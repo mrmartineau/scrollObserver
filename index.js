@@ -50,7 +50,7 @@ ScrollObserver.prototype.onScroll = function (e) {
 	}
 
 	if (scrollYPos >= breakpoint) {
-		this.stick();
+		this.thresholdReached();
 	} else {
 		this.unstick();
 	}
@@ -58,7 +58,7 @@ ScrollObserver.prototype.onScroll = function (e) {
 
 
 /** Stick */
-ScrollObserver.prototype.stick = function () {
+ScrollObserver.prototype.thresholdReached = function () {
 	this.element.classList.add(this.options.classNameActive);
 	this.element.classList.remove(this.options.classNameInactive);
 };
