@@ -1,0 +1,23 @@
+{
+  "name": "scroll-observer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrmartineau/scrollObserver.git"
+  },
+  "keywords": [
+    "scroll"
+  ],
+  "author": "Zander Martineau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrmartineau/scrollObserver/issues"
+  },
+  "homepage": "https://github.com/mrmartineau/scrollObserver#readme"
+}
