@@ -1,5 +1,5 @@
 # ScrollObserver
-### Add class to element when a specific scroll value has been reached
+> Add a class to an element when a specific scroll threshold has been reached
 
 
 ## Installation
@@ -15,14 +15,10 @@ This is useful if you want to have a sticky nav
 new ScrollObserver(document.querySelector('.foo'), {
 	// options, defaults listed
 
-	thresholdIn: 1,
+	threshold: 1,
 	// The scroll threshold you want to use to change state
 	// Can also be set to 'this' to dynamically determine the
 	// threshold based on the element passed
-
-	thresholdOut: 1,
-	// The scroll threshold you want to use to change to the inactive state, after
-	// the active state
 
 	classNameActive: 'scrollObserver-active',
 	// The CSS class applied to the element when `window.scrollY` is reached
@@ -36,20 +32,19 @@ new ScrollObserver(document.querySelector('.foo'), {
 ### Examples
 
 ```js
-
 // Use the offset of the passed element
 new ScrollObserver(document.querySelector('.foo'), {
-	thresholdIn: 'this',
+	threshold: 'this',
 });
 
 // Set threshold to 50 and change the active class
 new ScrollObserver(document.querySelector('.foo'), {
-	thresholdIn: 50,
+	threshold: 50,
 	classNameActive: 'fixToTop',
 });
 ```
 
-### Future
+## Future development
 * 2nd param could be array so can apply multiple options on the element
 * Is there a need for inactive class?
 
@@ -57,15 +52,15 @@ new ScrollObserver(document.querySelector('.foo'), {
 new ScrollObserver(
 	document.querySelector('.foo'),
 	[{
-		thresholdIn: 'this',
+		threshold: 'this',
 	},
 	{
-		thresholdIn: 500,
-		className: 'fixToTop',
+		threshold: 500,
+		classNameActive: 'fixToTop',
 	}]
 );
 ```
 
-Testing: http://jsbin.com/tokuco/26/edit?js,console,output
+Testing: [http://jsbin.com/tokuco/edit?js,output]
 
 Made by [Z&er :zap:](https://github.com/mrmartineau/)
