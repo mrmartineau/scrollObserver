@@ -1,6 +1,6 @@
 /**
  * ScrollObserver
- * Description
+ * @description Add a class to an element when a specific scroll threshold has been reached
  *
  * @module
  * @author Zander Martineau
@@ -13,10 +13,16 @@
  */
 function ScrollObserver(element, options) {
 	this.element = element;
-	this.options = Object.assign({}, this.defaultOptions, options);
+	this.options = Object.assign(this.defaultOptions, options);
 
-	if (this.options.thresholdIn === 'this') {
-		this.breakpoint = getOffsetSum(this.element).top;
+	if (this.options.threshold === 'this') {
+		this.threshold = getOffsetSum(this.element).top;
+	} else {
+		if (typeof parseInt(this.options.threshold, 10) === 'Number') {
+			this.threshold = parseInt(this.options.threshold, 10);
+		} else {
+			throw new Error('2nd param should either be an integer or "this"');
+		}
 	}
 
 	this.addEvents();
@@ -25,8 +31,7 @@ function ScrollObserver(element, options) {
 
 /** Default options */
 ScrollObserver.prototype.defaultOptions = {
-	thresholdIn: 1,
-	thresholdOut: 100,
+	threshold: 1,
 	classNameActive: 'scrollObserver-active',
 	classNameInactive: 'scrollObserver-inactive',
 };
@@ -41,18 +46,11 @@ ScrollObserver.prototype.addEvents = function () {
 /** onScroll events */
 ScrollObserver.prototype.onScroll = function (e) {
 	const scrollYPos = getScrollTop();
-	let breakpoint;
 
-	if (this.breakpoint) {
-		breakpoint = this.breakpoint;
-	} else {
-		breakpoint = this.options.breakpoint;
-	}
-
-	if (scrollYPos >= breakpoint) {
+	if (scrollYPos >= this.threshold) {
 		this.thresholdReached();
 	} else {
-		this.unstick();
+		this.release();
 	}
 };
 
@@ -64,8 +62,8 @@ ScrollObserver.prototype.thresholdReached = function () {
 };
 
 
-/** Unstick */
-ScrollObserver.prototype.unstick = function () {
+/** Release */
+ScrollObserver.prototype.release = function () {
 	this.element.classList.remove(this.options.classNameActive);
 	this.element.classList.add(this.options.classNameInactive);
 };
