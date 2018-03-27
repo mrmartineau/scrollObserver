@@ -5,13 +5,15 @@
 ## Installation
 
 ```sh
-npm install --save scrollobserver
+npm install --save scroll-observer
 ```
 
 This is useful if you want to have a sticky nav
 
 ## Options:
 ```js
+import ScrollObserver from 'scroll-observer'
+
 new ScrollObserver(document.querySelector('.foo'), {
 	// options, defaults listed
 
