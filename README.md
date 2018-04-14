@@ -6,6 +6,7 @@
 
 ```sh
 npm install --save scroll-observer
+yarn add scroll-observer
 ```
 
 This is useful if you want to have a sticky nav
@@ -14,7 +15,7 @@ This is useful if you want to have a sticky nav
 ```js
 import ScrollObserver from 'scroll-observer'
 
-new ScrollObserver(document.querySelector('.foo'), {
+new ScrollObserver(document.querySelector('.nav'), {
 	// options, defaults listed
 
 	threshold: 1,

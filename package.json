@@ -1,11 +1,14 @@
 {
   "name": "scroll-observer",
   "version": "1.1.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Add a class to an element when a specific scroll threshold has been reached",
+  "main": "dist/scroll-observer.js",
+  "umd:main": "dist/scroll-observer.umd.js",
+  "module": "dist/scroll-observer.m.js",
+  "source": "index.js",
   "scripts": {
-    "test": "test",
-    "start": ""
+    "build": "microbundle -o dist",
+    "dev": "microbundle watch"
   },
   "repository": {
     "type": "git",
@@ -19,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/mrmartineau/scrollObserver/issues"
   },
-  "homepage": "https://github.com/mrmartineau/scrollObserver#readme"
+  "homepage": "https://github.com/mrmartineau/scrollObserver#readme",
+  "devDependencies": {
+    "microbundle": "^0.4.4"
+  },
+  "dependencies": {
+    "just-throttle": "^1.0.2"
+  }
 }

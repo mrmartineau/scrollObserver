@@ -5,85 +5,68 @@
  * @module
  * @author Zander Martineau
  */
+import throttle from 'just-throttle'
+export default class {
+  /**
+   * @constructor
+   * @param {Element} element
+   * @param {Object} opts
+   */
+  constructor(element, opts) {
+    this.element = element;
+    const defaultOpts = {
+      threshold: 1,
+      classNameActive: 'scrollObserver-active',
+      classNameInactive: 'scrollObserver-inactive',
+      throttle: 100,
+    };
+    this.opts = Object.assign({}, defaultOpts, opts);
 
-/**
- * @constructor
- * @param {Element} element
- * @param {Object} options
- */
-function ScrollObserver(element, options) {
-	this.element = element;
-	this.options = Object.assign(this.defaultOptions, options);
+    if (this.opts.threshold === 'this') {
+      this.threshold = getOffset(this.element);
+    } else {
+      if (typeof parseInt(this.opts.threshold, 10) === 'Number') {
+        this.threshold = parseInt(this.opts.threshold, 10);
+      } else {
+        throw new Error('2nd param should either be an integer or "this"');
+      }
+    }
 
-	if (this.options.threshold === 'this') {
-		this.threshold = getOffsetSum(this.element).top;
-	} else {
-		if (typeof parseInt(this.options.threshold, 10) === 'Number') {
-			this.threshold = parseInt(this.options.threshold, 10);
-		} else {
-			throw new Error('2nd param should either be an integer or "this"');
-		}
-	}
+    this.addEvents();
+  }
 
-	this.addEvents();
+  addEvents() {
+    window.addEventListener('scroll', throttle(this.onScroll.bind(this), this.opts.throttle));
+  }
+
+  onScroll(e) {
+    const scrollYPos = window.pageYOffset || document.body.scrollTop;
+
+    if (scrollYPos >= this.threshold) {
+      this.thresholdReached();
+    } else {
+      this.release();
+    }
+  }
+
+  thresholdReached() {
+    this.element.classList.add(this.opts.classNameActive);
+    this.element.classList.remove(this.opts.classNameInactive);
+  }
+
+  release() {
+    this.element.classList.remove(this.opts.classNameActive);
+    this.element.classList.add(this.opts.classNameInactive);
+  }
 }
 
+const getOffset = elem => {
+  let top = 0;
 
-/** Default options */
-ScrollObserver.prototype.defaultOptions = {
-	threshold: 1,
-	classNameActive: 'scrollObserver-active',
-	classNameInactive: 'scrollObserver-inactive',
+  while (elem) {
+    top = top + parseInt(elem.offsetTop, 10);
+    elem = elem.offsetParent;
+  }
+
+  return top
 };
-
-
-/** Add events */
-ScrollObserver.prototype.addEvents = function () {
-	window.addEventListener("scroll", this.onScroll.bind(this));
-};
-
-
-/** onScroll events */
-ScrollObserver.prototype.onScroll = function (e) {
-	const scrollYPos = getScrollTop();
-
-	if (scrollYPos >= this.threshold) {
-		this.thresholdReached();
-	} else {
-		this.release();
-	}
-};
-
-
-/** Stick */
-ScrollObserver.prototype.thresholdReached = function () {
-	this.element.classList.add(this.options.classNameActive);
-	this.element.classList.remove(this.options.classNameInactive);
-};
-
-
-/** Release */
-ScrollObserver.prototype.release = function () {
-	this.element.classList.remove(this.options.classNameActive);
-	this.element.classList.add(this.options.classNameInactive);
-};
-
-function getScrollTop () {
-	return window.pageYOffset || document.body.scrollTop;
-}
-
-function getOffsetSum(elem) {
-	let top = 0;
-	let left = 0;
-
-	while (elem) {
-		top = top + parseInt(elem.offsetTop, 10);
-		left = left + parseInt(elem.offsetLeft, 10);
-		elem = elem.offsetParent;
-	}
-
-	return {
-		top: top,
-		left: left,
-	};
-}
