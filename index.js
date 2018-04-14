@@ -5,7 +5,7 @@
  * @module
  * @author Zander Martineau
  */
-import throttle from 'just-throttle'
+import throttle from 'just-throttle';
 export default class {
   /**
    * @constructor
@@ -22,21 +22,26 @@ export default class {
     };
     this.opts = Object.assign({}, defaultOpts, opts);
 
-    if (this.opts.threshold === 'this') {
-      this.threshold = getOffset(this.element);
-    } else {
-      if (typeof parseInt(this.opts.threshold, 10) === 'Number') {
-        this.threshold = parseInt(this.opts.threshold, 10);
-      } else {
-        throw new Error('2nd param should either be an integer or "this"');
-      }
-    }
-
     this.addEvents();
   }
 
   addEvents() {
-    window.addEventListener('scroll', throttle(this.onScroll.bind(this), this.opts.throttle));
+    window.addEventListener(
+      'scroll',
+      throttle(this.onScroll.bind(this), this.opts.throttle)
+    );
+
+    const threshold = this.opts.threshold;
+    if (threshold === 'this') {
+      this.threshold = getOffset(this.element);
+    } else {
+      if (typeof parseInt(threshold, 10) !== 'number') {
+        throw new Error(
+          '`threshold` value should either be an integer or "this"'
+        );
+      }
+      this.threshold = parseInt(threshold, 10);
+    }
   }
 
   onScroll(e) {
@@ -68,5 +73,5 @@ const getOffset = elem => {
     elem = elem.offsetParent;
   }
 
-  return top
+  return top;
 };
