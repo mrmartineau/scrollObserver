@@ -1,6 +1,6 @@
 {
   "name": "scroll-observer",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Add a class to an element when a specific scroll threshold has been reached",
   "main": "dist/scroll-observer.js",
   "umd:main": "dist/scroll-observer.umd.js",
